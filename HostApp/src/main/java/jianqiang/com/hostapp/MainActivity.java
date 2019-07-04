@@ -1,11 +1,9 @@
 package jianqiang.com.hostapp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,11 +18,8 @@ import java.lang.reflect.Method;
 
 import dalvik.system.DexClassLoader;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
-    private AssetManager mAssetManager;
-    private Resources mResources;
-    private Resources.Theme mTheme;
     private String dexpath = null;    //apk文件地址
     private File fileRelease = null;  //释放目录
     private DexClassLoader classLoader = null;
@@ -39,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             Utils.extractAssets(newBase, apkName);
         } catch (Throwable e) {
-            e.printStackTrace();
+            loge(e);
         }
     }
 
@@ -61,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         Button btn_2 = (Button) findViewById(R.id.btn_2);
         Button btn_3 = (Button) findViewById(R.id.btn_3);
 
-        tv = (TextView)findViewById(R.id.tv);
+        tv = (TextView) findViewById(R.id.tv);
 
         //普通调用，反射的方式
         btn_1.setOnClickListener(new View.OnClickListener() {
@@ -78,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
                     tv.setText(name);
                     Toast.makeText(getApplicationContext(), name, Toast.LENGTH_LONG).show();
-
+                    log("name:" + name);
                 } catch (Exception e) {
-                    Log.e("DEMO", "msg:" + e.getMessage());
+                    loge(e);
                 }
             }
         });
@@ -95,9 +90,11 @@ public class MainActivity extends AppCompatActivity {
 
                     IBean bean = (IBean) beanObject;
                     bean.setName("Hello");
+                    log("带参数Hello: " + bean.getName());
                     tv.setText(bean.getName());
                 } catch (Exception e) {
-                    Log.e("DEMO", "msg:" + e.getMessage());
+                    loge(e);
+
                 }
 
             }
@@ -116,15 +113,24 @@ public class MainActivity extends AppCompatActivity {
                     ICallback callback = new ICallback() {
                         @Override
                         public void sendResult(String result) {
+                            log("回调:" + result);
                             tv.setText(result);
                         }
                     };
                     bean.register(callback);
                 } catch (Exception e) {
-                    Log.e("DEMO", "msg:" + e.getMessage());
+                    loge(e);
                 }
 
             }
         });
+    }
+
+    private void log(String log) {
+        Log.i("sanbo", log);
+    }
+
+    private void loge(Throwable e) {
+        Log.e("sanbo", Log.getStackTraceString(e));
     }
 }

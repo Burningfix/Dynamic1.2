@@ -44,19 +44,6 @@ public class Utils {
 
     }
 
-    /**
-     * 待加载插件经过opt优化之后存放odex得路径
-     */
-    public static File getPluginOptDexDir(String packageName) {
-        return enforceDirExists(new File(getPluginBaseDir(packageName), "odex"));
-    }
-
-    /**
-     * 插件得lib库路径, 这个demo里面没有用
-     */
-    public static File getPluginLibDir(String packageName) {
-        return enforceDirExists(new File(getPluginBaseDir(packageName), "lib"));
-    }
 
     // --------------------------------------------------------------------------
     private static void closeSilently(Closeable closeable) {
@@ -69,25 +56,38 @@ public class Utils {
             // ignore
         }
     }
-
-    private static File sBaseDir;
-
-    // 需要加载得插件得基本目录 /data/data/<package>/files/plugin/
-    private static File getPluginBaseDir(String packageName) {
-        if (sBaseDir == null) {
-            sBaseDir = UPFApplication.getContext().getFileStreamPath("plugin");
-            enforceDirExists(sBaseDir);
-        }
-        return enforceDirExists(new File(sBaseDir, packageName));
-    }
-
-    private static synchronized File enforceDirExists(File sBaseDir) {
-        if (!sBaseDir.exists()) {
-            boolean ret = sBaseDir.mkdir();
-            if (!ret) {
-                throw new RuntimeException("create dir " + sBaseDir + "failed");
-            }
-        }
-        return sBaseDir;
-    }
+//    /**
+//     * 待加载插件经过opt优化之后存放odex得路径
+//     */
+//    public static File getPluginOptDexDir(String packageName) {
+//        return enforceDirExists(new File(getPluginBaseDir(packageName), "odex"));
+//    }
+//
+//    /**
+//     * 插件得lib库路径, 这个demo里面没有用
+//     */
+//    public static File getPluginLibDir(String packageName) {
+//        return enforceDirExists(new File(getPluginBaseDir(packageName), "lib"));
+//    }
+//
+//    private static File sBaseDir;
+//
+//    // 需要加载得插件得基本目录 /data/data/<package>/files/plugin/
+//    private static File getPluginBaseDir(String packageName) {
+//        if (sBaseDir == null) {
+//            sBaseDir = UPFApplication.getContext().getFileStreamPath("plugin");
+//            enforceDirExists(sBaseDir);
+//        }
+//        return enforceDirExists(new File(sBaseDir, packageName));
+//    }
+//
+//    private static synchronized File enforceDirExists(File sBaseDir) {
+//        if (!sBaseDir.exists()) {
+//            boolean ret = sBaseDir.mkdir();
+//            if (!ret) {
+//                throw new RuntimeException("create dir " + sBaseDir + "failed");
+//            }
+//        }
+//        return sBaseDir;
+//    }
 }

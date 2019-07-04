@@ -33,8 +33,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="jianqiang.com.plugin1.MyPlugin1_MainActivity">
-        </activity>
+        <!--<activity android:name="jianqiang.com.plugin1.MyPlugin1_MainActivity">-->
+        <!--</activity>-->
 
     </application>
 
