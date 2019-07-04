@@ -24,7 +24,10 @@ public class MainActivity extends Activity {
     private File fileRelease = null;  //释放目录
     private DexClassLoader classLoader = null;
 
-    private String apkName = "plugin1.apk";    //apk名称
+    //三种方式均支持: apk/apk改jar后缀/抽出其中的dex
+//    private String apkName = "classes.dex";
+//    private String apkName = "plugin1.jar";
+    private String apkName = "classes.dex";
 
     TextView tv;
 
@@ -43,11 +46,14 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        log("apkName: " + apkName);
         File extractFile = this.getFileStreamPath(apkName);
+        log("extractFile: " + extractFile.getAbsolutePath());
         dexpath = extractFile.getPath();
+        log("dexpath: " + dexpath);
 
         fileRelease = getDir("dex", 0); //0 表示Context.MODE_PRIVATE
+        log("fileRelease: " + fileRelease);
 
         classLoader = new DexClassLoader(dexpath,
                 fileRelease.getAbsolutePath(), null, getClassLoader());
