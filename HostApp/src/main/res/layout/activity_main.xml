@@ -21,11 +21,6 @@
         android:layout_height="wrap_content"
         android:text="简单调用" />
 
-    <Button
-        android:id="@+id/btnSanbo"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="sanbo测试" />
 
     <Button
         android:id="@+id/btn_2"
@@ -38,5 +33,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="带回调函数调用" />
+
+    <Button
+        android:id="@+id/btnSanbo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="[sanbo]加载三方测试" />
+
 
 </LinearLayout>

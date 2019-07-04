@@ -1,4 +1,4 @@
-package jianqiang.com.hostapp;
+package jianqiang.com.hostapp.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;

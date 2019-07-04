@@ -17,6 +17,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 
 import dalvik.system.DexClassLoader;
+import jianqiang.com.hostapp.utils.Utils;
 
 public class MainActivity extends Activity {
 
@@ -46,6 +47,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        initClassLoader();
+        initUiAndClick();
+    }
+
+    private void initClassLoader() {
         log("apkName: " + apkName);
         File extractFile = this.getFileStreamPath(apkName);
         log("extractFile: " + extractFile.getAbsolutePath());
@@ -54,14 +62,16 @@ public class MainActivity extends Activity {
 
         fileRelease = getDir("dex", 0); //0 表示Context.MODE_PRIVATE
         log("fileRelease: " + fileRelease);
-
         classLoader = new DexClassLoader(dexpath,
                 fileRelease.getAbsolutePath(), null, getClassLoader());
+    }
 
+    private void initUiAndClick() {
         Button btn_1 = (Button) findViewById(R.id.btn_1);
         Button btn_2 = (Button) findViewById(R.id.btn_2);
         Button btn_3 = (Button) findViewById(R.id.btn_3);
         Button btn_4 = (Button) findViewById(R.id.btnSanbo);
+//        Button btn_5 = (Button) findViewById(R.id.btn_5);
 
         tv = (TextView) findViewById(R.id.tv);
 
@@ -86,25 +96,7 @@ public class MainActivity extends Activity {
                 }
             }
         });
-        //自定义测试
-        btn_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Class mLoadClassBean;
-                try {
-                    mLoadClassBean = classLoader.loadClass("cn.sanbo.WTF");
-//                    Object beanObject = mLoadClassBean.newInstance();
 
-                    Method init = mLoadClassBean.getMethod("init", Context.class, String.class);
-                    init.setAccessible(true);
-//                    String name = (String) getNameMethod.invoke(beanObject);
-                    init.invoke(null, getApplicationContext(), "我是谁?");
-                    log("init over");
-                } catch (Exception e) {
-                    loge(e);
-                }
-            }
-        });
 
         //带参数调用
         btn_2.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +142,47 @@ public class MainActivity extends Activity {
 
             }
         });
+
+        //自定义测试
+        btn_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Class mLoadClassBean;
+                try {
+                    log("调用..cn.sanbo.WTF.init()....开始");
+                    mLoadClassBean = classLoader.loadClass("cn.sanbo.WTF");
+//                    Object beanObject = mLoadClassBean.newInstance();
+
+                    Method init = mLoadClassBean.getMethod("init", Context.class, String.class);
+                    init.setAccessible(true);
+//                    String name = (String) getNameMethod.invoke(beanObject);
+                    init.invoke(null, getApplicationContext(), "我是谁?");
+                    log("调用..cn.sanbo.WTF.init()....结束");
+
+                } catch (Exception e) {
+                    loge(e);
+                }
+            }
+        });
+
+//        // 更新自己调用
+//        btn_5.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//
+//                try {
+//                    Utils.extractAssets(getApplicationContext(), "testactivity.apk");
+//                    File dexFile = getFileStreamPath("testactivity.apk");
+//                    log("");
+//                    File optDexFile = getFileStreamPath("testactivity.dex");
+//                    BaseDexClassLoaderHookHelper.patchClassLoader(getClassLoader(), dexFile, optDexFile);
+//                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+//
+//                } catch (Exception e) {
+//                    loge(e);
+//                }
+//            }
+//        });
     }
 
     private void log(String log) {
