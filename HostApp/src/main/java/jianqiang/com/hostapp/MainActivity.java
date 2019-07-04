@@ -55,6 +55,7 @@ public class MainActivity extends Activity {
         Button btn_1 = (Button) findViewById(R.id.btn_1);
         Button btn_2 = (Button) findViewById(R.id.btn_2);
         Button btn_3 = (Button) findViewById(R.id.btn_3);
+        Button btn_4 = (Button) findViewById(R.id.btnSanbo);
 
         tv = (TextView) findViewById(R.id.tv);
 
@@ -74,6 +75,25 @@ public class MainActivity extends Activity {
                     tv.setText(name);
                     Toast.makeText(getApplicationContext(), name, Toast.LENGTH_LONG).show();
                     log("name:" + name);
+                } catch (Exception e) {
+                    loge(e);
+                }
+            }
+        });
+        //自定义测试
+        btn_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Class mLoadClassBean;
+                try {
+                    mLoadClassBean = classLoader.loadClass("cn.sanbo.WTF");
+//                    Object beanObject = mLoadClassBean.newInstance();
+
+                    Method init = mLoadClassBean.getMethod("init", Context.class, String.class);
+                    init.setAccessible(true);
+//                    String name = (String) getNameMethod.invoke(beanObject);
+                    init.invoke(null, getApplicationContext(), "我是谁?");
+                    log("init over");
                 } catch (Exception e) {
                     loge(e);
                 }
